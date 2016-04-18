@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <import resource="security.xml"/>
+
+    <bean id="applicationConfig"
+            class="org.kamilkurek.onlinepass.ApplicationConfig"
+            init-method="init">
+        <property name="applicationName" value="onlinepass"/>
+    </bean>
+
+    <bean id="configReader"
+          class="org.kamilkurek.onlinepass.config.ConfigReaderImpl"
+          init-method="init">
+        <property name="applicationConfig" ref="applicationConfig"/>
+        <property name="propertyValueParser" ref="propertyValueParser"/>
+        <property name="propertiesLoader" ref="propertiesLoader"/>
+    </bean>
+
+    <bean id="keepassReader" class="org.kamilkurek.onlinepass.keepass.KeepassReaderImpl">
+        <constructor-arg ref="configReader"/>
+    </bean>
+
+    <bean id="propertyValueParser"
+            class="org.kamilkurek.onlinepass.config.PropertyValueParserImpl">
+        <property name="applicationConfig" ref="applicationConfig"/>
+    </bean>
+
+    <bean id="propertiesLoader"
+            class="org.kamilkurek.onlinepass.PropertiesLoaderImpl"/>
+
+</beans>

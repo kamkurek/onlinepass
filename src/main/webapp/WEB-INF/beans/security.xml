@@ -1,0 +1,48 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="
+             http://www.springframework.org/schema/beans
+             http://www.springframework.org/schema/beans/spring-beans.xsd
+             http://www.springframework.org/schema/security
+             http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <beans:bean class="org.kamilkurek.onlinepass.CustomUserDetailsService"
+            id="customUserDetailsService"
+            init-method="init">
+        <beans:property name="applicationConfig" ref="applicationConfig"/>
+        <beans:property name="propertiesLoader" ref="propertiesLoader"/>
+    </beans:bean>
+
+    <!--<http pattern="/login" security="none"/>-->
+
+    <http use-expressions="true">
+        <intercept-url pattern="/resources/**" access="permitAll" />
+        <intercept-url pattern="/access*" access="permitAll" />
+        <intercept-url pattern="/**" access="isAuthenticated()" />
+        <form-login
+                login-page="/access"
+                default-target-url="/"
+                authentication-failure-url="/access?error"
+                username-parameter="login"
+                password-parameter="password" />
+        <logout logout-success-url="/access?logout" />
+        <csrf disabled="true"/>
+    </http>
+
+    <authentication-manager>
+        <authentication-provider user-service-ref="customUserDetailsService"/>
+    </authentication-manager>
+
+    <!--<beans:bean id="csrfFilter" class="org.springframework.security.web.csrf.CsrfFilter">-->
+        <!--<beans:constructor-arg>-->
+            <!--<beans:bean class="org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository"/>-->
+        <!--</beans:constructor-arg>-->
+    <!--</beans:bean>-->
+    <!--&lt;!&ndash;-->
+        <!--Provides automatic CSRF token inclusion when using Spring MVC Form tags or Thymeleaf. See-->
+        <!--http://localhost:8080/#forms and form.jsp for examples-->
+    <!--&ndash;&gt;-->
+    <!--<beans:bean id="requestDataValueProcessor" class="org.springframework.security.web.servlet.support.csrf.CsrfRequestDataValueProcessor"/>-->
+
+</beans:beans>
