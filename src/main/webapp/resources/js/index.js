@@ -16,9 +16,11 @@ $(document).ready(function(){
     });
 });
 
-function showPassword(title, url, password) {
+function showPassword(title, url, login, password) {
     $('#modalHeader').text(title);
     $('#modalPassword').val(password);
     $('#modalUrl').val(url);
+    $('#modalTitle').val(title);
+    $('#modalLogin').val(login);
     $('#myModal').modal();
 }
