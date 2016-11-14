@@ -10,5 +10,7 @@ import java.util.List;
 public interface KeepassReader {
 
     List<Entry> getAllEntries();
+    Entry getEntry(String uuid);
+    void updateEntry(Entry entry, String title, String url, String login, String password);
 
 }

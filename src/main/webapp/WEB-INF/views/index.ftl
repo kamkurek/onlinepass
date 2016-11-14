@@ -40,7 +40,8 @@
                                 '${entry.getTitle()}',
                                 '${entry.getUrl()}',
                                 '${entry.getUsername()}',
-                                '${entry.getPassword()}'
+                                '${entry.getPassword()}',
+                                '${entry.getUuid()}'
                                 )">Show
                         </div>
                     </td>
