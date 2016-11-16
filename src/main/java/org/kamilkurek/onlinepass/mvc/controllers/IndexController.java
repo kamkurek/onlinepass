@@ -2,6 +2,7 @@ package org.kamilkurek.onlinepass.mvc.controllers;
 
 import org.kamilkurek.onlinepass.keepass.KeepassReader;
 import de.slackspace.openkeepass.domain.Entry;
+import org.kamilkurek.onlinepass.tools.JsonTreeBuilder;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,10 +20,15 @@ import java.util.List;
 public class IndexController {
 
     private KeepassReader keepassReader;
+    private JsonTreeBuilder jsonTreeBuilder;
 
     @RequestMapping(method = RequestMethod.GET) public String get(Model model) {
         List<Entry> entries = keepassReader.getAllEntries();
-        model.addAttribute("entries",entries);
+        model.addAttribute("entries", entries);
+        model.addAttribute("groups", "[" +
+                jsonTreeBuilder.convert(keepassReader.getRootGroup().getGroups().get(0))
+            + "]"
+        );
         return "index";
     }
 
@@ -44,4 +50,8 @@ public class IndexController {
         this.keepassReader = keepassReader;
     }
 
+    @Required
+    public void setJsonTreeBuilder(JsonTreeBuilder jsonTreeBuilder) {
+        this.jsonTreeBuilder = jsonTreeBuilder;
+    }
 }
