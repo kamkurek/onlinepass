@@ -25,12 +25,8 @@ public class KeepassReaderImpl implements KeepassReader {
     }
 
     private KeePassFile openDatabase() {
-        try (InputStream resource = new FileInputStream(configReader.getKeepassFileLocation())) {
-            KeePassDatabase keePassDatabase = KeePassDatabase.getInstance(resource);
-            return keePassDatabase.openDatabase(configReader.getKeepassPassword());
-        } catch(IOException ex) {
-            throw new RuntimeException(ex);
-        }
+        KeePassDatabase keePassDatabase = KeePassDatabase.getInstance(configReader.getKeepassFileLocation());
+        return keePassDatabase.openDatabase(configReader.getKeepassPassword());
     }
 
     @Override
@@ -102,14 +98,10 @@ public class KeepassReaderImpl implements KeepassReader {
         String keepassFileLocation = configReader.getKeepassFileLocation();
         try {
             Files.move(Paths.get(keepassFileLocation), Paths.get(keepassFileLocation+"."+System.currentTimeMillis()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try (OutputStream resource = new FileOutputStream(keepassFileLocation)) {
             String keepassPassword = configReader.getKeepassPassword();
-            KeePassDatabase.write(keePassFile, keepassPassword, resource);
+            KeePassDatabase.write(keePassFile, keepassPassword, keepassFileLocation);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 

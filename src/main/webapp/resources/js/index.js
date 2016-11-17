@@ -21,7 +21,6 @@ function showPassword(uuid) {
 
 
     $.get('/onlinepass/data/details/'+uuid, function(entry) {
-        console.log(entry);
         $('#modalHeader').text(entry.title);
         $('#modalPassword').val(entry.password);
         $('#modalUrl').val(entry.url);
@@ -50,7 +49,6 @@ function loadTable(groupUuid) {
     }
     $.get(url, function(data){
             $.each(data, function(i, item) {
-                console.log(item);
                 $('<tr>').append(
                     $('<td>').text(i+1),
                     $('<td>').text(item.title),
