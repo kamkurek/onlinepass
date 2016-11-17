@@ -62,6 +62,10 @@ public class KeepassReaderImpl implements KeepassReader {
                 .build();
 
         groupZipper.replace(newGroup);
+        saveAndReload();
+    }
+
+    private void saveAndReload() {
         save();
         keePassFile = openDatabase();
     }
@@ -85,7 +89,13 @@ public class KeepassReaderImpl implements KeepassReader {
         Group newGroup = new GroupBuilder(group).addEntry(entry).build();
         groupZipper.replace(newGroup);
         keePassFile = groupZipper.close();
-//        save();
+        saveAndReload();
+    }
+
+    @Override
+    public List<Entry> getEntriesForGroup(String groupUUID) {
+        Group group = keePassFile.getGroupByUUID(UUID.fromString(groupUUID));
+        return group.getEntries();
     }
 
     private void save() {

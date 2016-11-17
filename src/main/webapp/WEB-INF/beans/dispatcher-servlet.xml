@@ -11,6 +11,8 @@
     http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context.xsd">
 
+    <mvc:annotation-driven />
+
     <!--<mvc:resources mapping="/resources/**" location="/resources/" />-->
     <!--<mvc:default-servlet-handler />-->
 
@@ -30,5 +32,9 @@
     </bean>
 
     <bean class="org.kamilkurek.onlinepass.mvc.controllers.AccessController"/>
+
+    <bean class="org.kamilkurek.onlinepass.mvc.controllers.DataController">
+        <property name="keepassReader" ref="keepassReader"/>
+    </bean>
 
 </beans>

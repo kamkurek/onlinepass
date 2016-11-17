@@ -8,20 +8,28 @@ $(document).ready(function(){
     clipboardLogin.on('success', function(e) {
         e.clearSelection();
     });
+
+    loadTable();
 });
 
-function showPassword(title, url, login, password, uuid) {
+function showPassword(uuid) {
     $('#myModal :input').each(function() {
         $(this).prop('readOnly', true);
     });
     $('#modalEditButton').removeClass('hidden');
     $('#modalSaveButton').addClass('hidden');
 
-    $('#modalHeader').text(title);
-    $('#modalPassword').val(password);
-    $('#modalUrl').val(url);
-    $('#modalTitle').val(title);
-    $('#modalLogin').val(login);
+
+    $.get('/onlinepass/data/details', { uuid: uuid }, function(entry) {
+        console.log(entry);
+        $('#modalHeader').text(entry.title);
+        $('#modalPassword').val(entry.password);
+        $('#modalUrl').val(entry.url);
+        $('#modalTitle').val(entry.title);
+        $('#modalLogin').val(entry.username);
+    });
+
+
     $('#modalUuid').val(uuid);
     $('#myModal').modal();
 }
@@ -33,3 +41,29 @@ function enableEdit() {
     $('#modalEditButton').toggleClass('hidden');
     $('#modalSaveButton').toggleClass('hidden');
 }
+
+function loadTable() {
+    $.ajax({
+        url: "/onlinepass/data",
+        success: function(data){
+            $.each(data, function(i, item) {
+                console.log(item);
+                $('<tr>').append(
+                    $('<td>').text(i+1),
+                    $('<td>').text(item.title),
+                    $('<td>').text(item.url),
+                    $('<td>').text(item.username),
+                    $('<td>').append($('<div />', {
+                        'class' : 'btn btn-primary',
+                        'html'  : 'Show',
+                        'click' : function() {
+                            showPassword(item.uuid)
+                        }
+                    })                    )
+                ).appendTo('#myTable');
+            });
+        }
+    });
+}
+
+

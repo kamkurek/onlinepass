@@ -19,4 +19,6 @@ public interface KeepassReader {
     Group getRootGroup();
 
     void addEntry(Group group, Entry entry);
+
+    List<Entry> getEntriesForGroup(String groupUUID);
 }

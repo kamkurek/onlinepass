@@ -22,11 +22,17 @@ public class IndexController {
     private KeepassReader keepassReader;
     private JsonTreeBuilder jsonTreeBuilder;
 
-    @RequestMapping(method = RequestMethod.GET) public String get(Model model) {
-        List<Entry> entries = keepassReader.getAllEntries();
+    @RequestMapping(method = RequestMethod.GET) public String get(Model model,
+        @RequestParam(required = false) String groupUUID) {
+        List<Entry> entries;
+        if(groupUUID == null) {
+            entries = keepassReader.getAllEntries();
+        } else {
+            entries = keepassReader.getEntriesForGroup(groupUUID);
+        }
         model.addAttribute("entries", entries);
         model.addAttribute("groups", "[" +
-                jsonTreeBuilder.convert(keepassReader.getRootGroup().getGroups().get(0))
+                jsonTreeBuilder.convert(keepassReader.getRootGroup())
             + "]"
         );
         return "index";

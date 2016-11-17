@@ -6,5 +6,5 @@
 <link rel="icon" href="<@spring.url '/resources/img/lock.png'/>">
 <link rel="stylesheet" type="text/css" href="<@spring.url '/resources/css/bootstrap.min.css'/>"/>
 <link rel="stylesheet" type="text/css" href="<@spring.url '/resources/css/bootstrap-theme.min.css'/>"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script src="<@spring.url '/resources/js/bootstrap.min.js'/>"></script>
