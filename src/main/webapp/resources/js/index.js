@@ -20,7 +20,7 @@ function showPassword(uuid) {
     $('#modalSaveButton').addClass('hidden');
 
 
-    $.get('/onlinepass/data/details', { uuid: uuid }, function(entry) {
+    $.get('/onlinepass/data/details/'+uuid, function(entry) {
         console.log(entry);
         $('#modalHeader').text(entry.title);
         $('#modalPassword').val(entry.password);
@@ -42,10 +42,13 @@ function enableEdit() {
     $('#modalSaveButton').toggleClass('hidden');
 }
 
-function loadTable() {
-    $.ajax({
-        url: "/onlinepass/data",
-        success: function(data){
+function loadTable(groupUuid) {
+    $('#myTable').empty();
+    var url = '/onlinepass/data';
+    if(groupUuid) {
+        url+='/'+groupUuid;
+    }
+    $.get(url, function(data){
             $.each(data, function(i, item) {
                 console.log(item);
                 $('<tr>').append(
@@ -63,7 +66,7 @@ function loadTable() {
                 ).appendTo('#myTable');
             });
         }
-    });
+    );
 }
 
 
