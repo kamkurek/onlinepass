@@ -20,11 +20,10 @@ import static org.mockito.Mockito.when;
 public class KeepassReaderImplTest {
 
     private KeepassReader keepassReader;
-    private Path path;
 
     @BeforeMethod
     private void setUp() throws IOException {
-        path = Files.createTempFile("keepass", ".tmp");
+        Path path = Files.createTempFile("keepass", ".tmp");
         KeePassFile keePassFile = new KeePassFileBuilder("database")
                                 .build();
         KeePassDatabase.write(keePassFile, "password", path.toString());

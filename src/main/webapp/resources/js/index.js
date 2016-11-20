@@ -9,7 +9,7 @@ $(document).ready(function(){
         e.clearSelection();
     });
 
-    loadTable();
+    Entries.fetch(appendTable);
 });
 
 function showPassword(uuid) {
@@ -19,15 +19,13 @@ function showPassword(uuid) {
     $('#modalEditButton').removeClass('hidden');
     $('#modalSaveButton').addClass('hidden');
 
-
-    $.get('/onlinepass/data/details/'+uuid, function(entry) {
+    Entries.fetch(function(entry){
         $('#modalHeader').text(entry.title);
         $('#modalPassword').val(entry.password);
         $('#modalUrl').val(entry.url);
         $('#modalTitle').val(entry.title);
         $('#modalLogin').val(entry.username);
-    });
-
+    }, '/'+uuid);
 
     $('#modalUuid').val(uuid);
     $('#myModal').modal();
@@ -41,30 +39,22 @@ function enableEdit() {
     $('#modalSaveButton').toggleClass('hidden');
 }
 
-function loadTable(groupUuid) {
+function appendTable(entries) {
     $('#myTable').empty();
-    var url = '/onlinepass/data';
-    if(groupUuid) {
-        url+='/'+groupUuid;
-    }
-    $.get(url, function(data){
-            $.each(data, function(i, item) {
-                $('<tr>').append(
-                    $('<td>').text(i+1),
-                    $('<td>').text(item.title),
-                    $('<td>').text(item.url),
-                    $('<td>').text(item.username),
-                    $('<td>').append($('<div />', {
-                        'class' : 'btn btn-primary',
-                        'html'  : 'Show',
-                        'click' : function() {
-                            showPassword(item.uuid)
-                        }
-                    })                    )
-                ).appendTo('#myTable');
-            });
-        }
-    );
+    $.each(entries, function(i, entry) {
+        $('<tr>').append(
+            $('<td>').text(i+1),
+            $('<td>').text(entry.title),
+            $('<td>').text(entry.url),
+            $('<td>').text(entry.username),
+            $('<td>').append($('<div />', {
+                'class' : 'btn btn-primary',
+                'html'  : 'Show',
+                'click' : function() {
+                    showPassword(entry.uuid)
+                }
+            })                    )
+        ).appendTo('#myTable');
+    });
 }
-
 

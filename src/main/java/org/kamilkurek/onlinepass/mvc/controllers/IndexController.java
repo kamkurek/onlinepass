@@ -1,16 +1,12 @@
 package org.kamilkurek.onlinepass.mvc.controllers;
 
-import org.kamilkurek.onlinepass.keepass.KeepassReader;
 import de.slackspace.openkeepass.domain.Entry;
-import org.kamilkurek.onlinepass.tools.JsonTreeBuilder;
+import org.kamilkurek.onlinepass.keepass.KeepassReader;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.List;
 
 /**
  * Created by kamil on 2016-04-08.
@@ -20,21 +16,8 @@ import java.util.List;
 public class IndexController {
 
     private KeepassReader keepassReader;
-    private JsonTreeBuilder jsonTreeBuilder;
 
-    @RequestMapping(method = RequestMethod.GET) public String get(Model model,
-        @RequestParam(required = false) String groupUUID) {
-        List<Entry> entries;
-        if(groupUUID == null) {
-            entries = keepassReader.getAllEntries();
-        } else {
-            entries = keepassReader.getEntriesForGroup(groupUUID);
-        }
-        model.addAttribute("entries", entries);
-        model.addAttribute("groups", "[" +
-                jsonTreeBuilder.convert(keepassReader.getRootGroup())
-            + "]"
-        );
+    @RequestMapping(method = RequestMethod.GET) public String get() {
         return "index";
     }
 
@@ -56,8 +39,4 @@ public class IndexController {
         this.keepassReader = keepassReader;
     }
 
-    @Required
-    public void setJsonTreeBuilder(JsonTreeBuilder jsonTreeBuilder) {
-        this.jsonTreeBuilder = jsonTreeBuilder;
-    }
 }

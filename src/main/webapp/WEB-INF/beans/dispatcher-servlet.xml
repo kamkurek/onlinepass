@@ -29,13 +29,16 @@
 
     <bean class="org.kamilkurek.onlinepass.mvc.controllers.IndexController">
         <property name="keepassReader" ref="keepassReader"/>
-        <property name="jsonTreeBuilder" ref="jsonTreeBuilder"/>
     </bean>
 
     <bean class="org.kamilkurek.onlinepass.mvc.controllers.AccessController"/>
 
-    <bean class="org.kamilkurek.onlinepass.mvc.controllers.DataController">
+    <bean class="org.kamilkurek.onlinepass.mvc.controllers.EntryController">
         <property name="keepassReader" ref="keepassReader"/>
+    </bean>
+
+    <bean class="org.kamilkurek.onlinepass.mvc.controllers.GroupController">
+        <constructor-arg name="keepassReader" ref="keepassReader"/>
     </bean>
 
 </beans>

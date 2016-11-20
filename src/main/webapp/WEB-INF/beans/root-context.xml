@@ -28,8 +28,6 @@
         <constructor-arg ref="configReader"/>
     </bean>
 
-    <bean id="jsonTreeBuilder" class="org.kamilkurek.onlinepass.tools.JsonTreeBuilder"/>
-
     <bean id="propertyValueParser"
             class="org.kamilkurek.onlinepass.config.PropertyValueParserImpl">
         <property name="applicationConfig" ref="applicationConfig"/>

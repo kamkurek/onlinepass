@@ -7,12 +7,10 @@
     <link rel="stylesheet" type="text/css" href="<@spring.url '/resources/css/bootstrap-treeview.min.css'/>"/>
     <script src="http://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
     <script src="<@spring.url '/resources/js/clipboard.min.js'/>"></script>
-    <script src="<@spring.url '/resources/js/index.js'/>"></script>
     <script src="<@spring.url '/resources/js/bootstrap-treeview.min.js'/>"></script>
-    <#--<script src="<@spring.url '/resources/js/tree.js'/>"></script>-->
-    <script>
-        <#include "tree.ftl.js">
-    </script>
+    <script src="<@spring.url '/resources/js/model.js'/>"></script>
+    <script src="<@spring.url '/resources/js/index.js'/>"></script>
+    <script src="<@spring.url '/resources/js/tree.js'/>"></script>
 </head>
 <body>
 <#include "navbar.ftl">

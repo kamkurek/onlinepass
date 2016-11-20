@@ -5,36 +5,34 @@ import org.kamilkurek.onlinepass.keepass.KeepassReader;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by kamkurek on 16.11.2016.
  */
 
 @Controller
-@RequestMapping("/data")
-public class DataController {
+@RequestMapping("/entries")
+public class EntryController {
 
     private KeepassReader keepassReader;
 
     @ResponseBody
     @GetMapping
-    public List<Entry> allEntries() {
+    public List<Entry> allEntries(@RequestParam(required = false) Map<String,String> params) {
+        String groupUuid = params.get("group");
+        if(groupUuid != null) {
+            return keepassReader.getEntriesForGroup(groupUuid);
+        }
         return keepassReader.getAllEntries();
     }
 
     @ResponseBody
-    @GetMapping(path = "/details/{uuid}")
+    @GetMapping(path = "/{uuid}")
     public Entry entry(@PathVariable String uuid) {
         return keepassReader.getEntry(uuid);
-    }
-
-    @ResponseBody
-    @GetMapping(path = "/{uuid}")
-    public List<Entry> entriesForGroup(@PathVariable String uuid) {
-        return keepassReader.getEntriesForGroup(uuid);
     }
 
     @Required
