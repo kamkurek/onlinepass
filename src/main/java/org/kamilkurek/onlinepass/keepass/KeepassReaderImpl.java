@@ -49,28 +49,14 @@ public class KeepassReaderImpl implements KeepassReader {
                 .build();
 
         Group group = getGroupForEntry(getRootGroup(), entry);
-        GroupZipper groupZipper = new GroupZipper(keePassFile);
-        navigateToGroup(groupZipper, group);
 
-        Group newGroup = new GroupBuilder(group)
-                .removeEntry(entry)
-                .addEntry(newEntry)
-                .build();
-
-        groupZipper.replace(newGroup);
-        saveAndReload();
+        group.getEntries().remove(entry);
+        group.getEntries().add(newEntry);
     }
 
-    private void saveAndReload() {
+    public void saveAndReload() {
         save();
         keePassFile = openDatabase();
-    }
-
-    private void navigateToGroup(GroupZipper groupZipper, Group group) {
-        while(!group.equals(groupZipper.getNode())) {
-            groupZipper = checkLevel(groupZipper, group);
-            groupZipper.down();
-        }
     }
 
     @Override
@@ -80,12 +66,7 @@ public class KeepassReaderImpl implements KeepassReader {
 
     @Override
     public void addEntry(Group group, Entry entry) {
-        GroupZipper groupZipper = new GroupZipper(keePassFile);
-        navigateToGroup(groupZipper, group);
-        Group newGroup = new GroupBuilder(group).addEntry(entry).build();
-        groupZipper.replace(newGroup);
-        keePassFile = groupZipper.close();
-        saveAndReload();
+        group.getEntries().add(entry);
     }
 
     @Override

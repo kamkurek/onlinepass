@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
  */
 public class KeepassReaderImplTest {
 
-    private KeepassReader keepassReader;
+    private KeepassReaderImpl keepassReader;
 
     @BeforeMethod
     private void setUp() throws IOException {

@@ -4,9 +4,7 @@ import de.slackspace.openkeepass.domain.Entry;
 import org.kamilkurek.onlinepass.keepass.KeepassReader;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by kamil on 2016-04-08.
@@ -17,11 +15,12 @@ public class IndexController {
 
     private KeepassReader keepassReader;
 
-    @RequestMapping(method = RequestMethod.GET) public String get() {
+    @GetMapping
+    public String get() {
         return "index";
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     public String post(
             @RequestParam String title,
             @RequestParam String url,
@@ -30,6 +29,7 @@ public class IndexController {
             @RequestParam String uuid) {
         Entry entry = keepassReader.getEntry(uuid);
         keepassReader.updateEntry(entry, title, url, login, password);
+        keepassReader.saveAndReload();
         return "redirect:/";
     }
 

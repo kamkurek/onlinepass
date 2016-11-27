@@ -21,4 +21,6 @@ public interface KeepassReader {
     void addEntry(Group group, Entry entry);
 
     List<Entry> getEntriesForGroup(String groupUUID);
+
+    void saveAndReload();
 }
